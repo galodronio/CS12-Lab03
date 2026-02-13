@@ -162,12 +162,12 @@ class WhacAMoleModel:
         inactive_mole_count = len(inactive_moles)
 
         if self._turn == 1:
-            rng.choice(inactive_moles).pop_up()
+            self._config.rng.choice(inactive_moles).pop_up()
             inactive_mole_count -= 1
 
         for n in range(inactive_mole_count//2):
-            if rng.choice((True, False)): break
-            rng.choice(inactive_moles).pop_up()
+            if self._config.rng.choice((True, False)): break
+            self._config.rng.choice(inactive_moles).pop_up()
 
     def finish_turn(self):
         for m in self._moles:
@@ -217,18 +217,3 @@ class WhacAMoleController:
             model.process_hit(idx)
             view.display_turn(model)
             model.finish_turn()
-
-
-mole_counts = {SimpleMole: 6}
-turns = 15
-rng = Random(0)
-
-config = WhacAMoleConfig(mole_counts, turns, rng)
-hammer = SimpleHammer()
-
-model = WhacAMoleModel(config, hammer)
-view = WhacAMoleView()
-
-controller = WhacAMoleController(model, view)
-
-controller.start()
